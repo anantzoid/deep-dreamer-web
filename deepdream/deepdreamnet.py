@@ -1,11 +1,16 @@
 # imports and basic notebook setup
+import os
+os.system("export LD_LIBRARY_PATH=/usr/local/cuda-7.0/lib64")
+
+
 from cStringIO import StringIO
 import numpy as np
 import scipy.ndimage as nd
 import PIL.Image
 from google.protobuf import text_format
 import sys
-
+sys.path.append('/home/ubuntu/caffe/python')
+print >>sys.stderr, sys.path
 original_img = sys.argv[1] 
 
 import caffe

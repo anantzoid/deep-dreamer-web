@@ -6,6 +6,7 @@ import logging
 logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0,"/var/www/deepdream/")
 sys.path.append('/home/ubuntu/caffe/python')
+os.environ['LD_LIBRARY_PATH'] = '/usr/local/cuda-7.0/lib64' 
 
 '''
 PROJECT_DIR = '/home/ubuntu/.virtualenvs/deepdream'

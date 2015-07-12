@@ -4,8 +4,9 @@ from flask import Flask
 from flask import render_template
 from flask import request
 #import deepdreamnet
-
 app = Flask(__name__)
+
+print >>sys.stderr, os.environ
 
 app.config['ORIGINALS'] = '/var/www/deepdream/deepdream/static/originals'
 @app.route('/')
