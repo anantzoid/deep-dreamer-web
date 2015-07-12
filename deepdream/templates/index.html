@@ -4,19 +4,38 @@
 	<script src="../static/js/lib/jquery-1.11.3.min.js"></script>
 	<script src="../static/js/index.js"></script>
 
-	<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+	<link rel="stylesheet" href="../static/css/lib/dropzone.css">
+	<link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
-<form action="/upload" class="dropzone" id="my-dropzone">
-	<div>Drop File here </div>
-</form>
+
+<div class="header">
+    <div class="app_title">Deep Dreamer</div>
+</div>
+<div class="container">
+    <div class="drop_container">
+        <form action="/upload" class="dropzone" id="my-dropzone">
+            <div class="dz-message">
+            Drop files here or click to upload.
+        </div>
+        </form>
+        <div class="loader_container hidden"><img src="../static/img/loader.gif" class="loader" /></div>
+    </div>
+    <div class="loader_message hidden">Hold tight. This might take some time.</div>
+    </div>
+</div>
+<div class="footer">
+    © anantzoid
+</div>
 <script>
 Dropzone.options.myDropzone = {
-		init: function () {
-			this.on("success", function (file,response) {
-				console.log(response);
-			    checkResult(response);	
-      });
+    init: function () {
+        this.on("addedfile", function(file) {
+            showLoader();
+        });
+        this.on("success", function (file,response) {
+            checkResult(response, this);	
+        });
   }
 };
 </script>

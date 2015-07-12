@@ -99,7 +99,7 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, end='incep
             if not clip: # adjust image contrast if clipping is disabled
                 vis = vis*(255.0/np.percentile(vis, 99.98))
             k = "octave_"+str(octave)+"-iter_"+str(i)+"-layer_"+end.replace("/", "_")
-	    #saveImage(k, vis)
+            #saveImage(k, vis)
             print octave, i, end, vis.shape
             #clear_output(wait=True)
             

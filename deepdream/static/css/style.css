@@ -1,0 +1,87 @@
+.app_title {
+  font-size: 40px;
+  font-weight: bold;
+  color: #646C7F;
+  font-family: sans-serif;
+  margin-left: 30%;
+}
+
+.container {
+  height: 100%;
+  margin: 50px auto;
+}
+
+
+.drop_container {
+    position: relative;
+    width: 450px;
+    margin: auto;
+}
+
+.dropzone {
+  border: 2px dashed #0087F7;
+  border-radius: 5px;
+}
+
+.hidden {
+    display: none;
+}
+
+.loader_container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  opacity: 0.4;
+  z-index: 50;
+  background-color: #9a9a9a;
+}
+
+.loader_message {
+    margin: auto;
+    width: 300px;
+}
+
+.loader {
+  width: 80px;
+  display: block;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.dz-preview {
+    display: block !important;
+}
+
+.dz-image {
+    margin: auto;
+}
+
+.deep_dreamed {
+    margin: auto;
+    display: block;   
+    width: auto;
+    height: 100%;
+}
+
+.header {
+    top: 0;
+}
+
+.footer {
+    bottom: 0;
+    background-color: #e4e4e4;
+    position: fixed;
+}
+
+.footer, .header {
+  padding: 10px;
+  width: 100%;
+  left: 0;
+  right: 0;
+}
+
+body {
+    font-family: sans-serif;
+}
