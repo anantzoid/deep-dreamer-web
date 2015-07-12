@@ -1,17 +1,18 @@
 # imports and basic notebook setup
 import os
-os.system("export LD_LIBRARY_PATH=/usr/local/cuda-7.0/lib64")
-
-
 from cStringIO import StringIO
+import matplotlib as mpl
+mpl.use('Agg')
 import numpy as np
 import scipy.ndimage as nd
 import PIL.Image
 from google.protobuf import text_format
 import sys
-sys.path.append('/home/ubuntu/caffe/python')
-print >>sys.stderr, sys.path
-original_img = sys.argv[1] 
+
+pending_files = os.listdir("/var/www/deepdream/deepdream/static/pending")
+if not len(pending_files):
+	print "no files"
+	exit(0)
 
 import caffe
 
@@ -93,7 +94,6 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, end='incep
             vis = deprocess(net, src.data[0])
             if not clip: # adjust image contrast if clipping is disabled
                 vis = vis*(255.0/np.percentile(vis, 99.98))
-            #showarray(vis)
             k = "octave_"+str(octave)+"-iter_"+str(i)+"-layer_"+end.replace("/", "_")
 	    #saveImage(k, vis)
             print octave, i, end, vis.shape
@@ -105,11 +105,13 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, end='incep
     return deprocess(net, src.data[0])
 
 
-img = np.float32(PIL.Image.open(original_img))
-dream = deepdream(net, img) 
-final_img = original_img.split(".")[0].split("/")[-1]
-out_path = saveImage("/var/www/deepdream/deepdream/static/final/"+final_img, dream)
- 
+original_img_path  = '/var/www/deepdream/deepdream/static/pending/'
+for original_img in pending_files:
+	img = np.float32(PIL.Image.open(original_img_path + original_img))
+	dream = deepdream(net, img) 
+	final_img = original_img.split(".")[0].split("/")[-1]
+	out_path = saveImage("/var/www/deepdream/deepdream/static/final/"+final_img, dream)
+	os.rename(original_img_path+original_img, "/var/www/deepdream/deepdream/static/originals/"+original_img)
 
 
 '''
