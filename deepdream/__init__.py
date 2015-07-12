@@ -5,9 +5,9 @@ from flask import render_template
 from flask import request
 
 app = Flask(__name__)
-
+print >>sys.stderr, os.getcwd()
 app.config['PENDING'] = '/var/www/deepdream/deepdream/static/pending'
-app.config['ORIGINALS'] = '/var/www/deepdream/deepdream/static/originals'
+app.config['FINAL'] = '/var/www/deepdream/deepdream/static/final'
 
 @app.route('/')
 def init():
@@ -19,9 +19,17 @@ def imgupload():
 
 	#cleran filename: remove . and /
 	save_path = os.path.join(app.config['PENDING'], file.filename)
-	print >>sys.stderr, save_path
 	file.save(save_path)
-	return "1" 
+	newfilename = file.filename.split(".")[0]+".jpeg"
+	return os.path.join(app.config['FINAL'], newfilename) 
+
+@app.route('/deepdreamed', methods=['POST'])
+def converted():
+	filename = request.form['file']	
+	if os.path.isfile(filename):
+		return filename.replace("/var/www/deepdream/deepdream","..")	
+	else:
+		return "pending"	
 
 if __name__ == "__main__":
      app.run(debug=True)

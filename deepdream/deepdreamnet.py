@@ -9,7 +9,11 @@ import PIL.Image
 from google.protobuf import text_format
 import sys
 
-pending_files = os.listdir("/var/www/deepdream/deepdream/static/pending")
+pending_img_path  = '/var/www/deepdream/deepdream/static/pending/'
+final_img_path = "/var/www/deepdream/deepdream/static/final/"
+original_img_path =  "/var/www/deepdream/deepdream/static/originals/"
+
+pending_files = os.listdir(pending_img_path)
 if not len(pending_files):
 	print "no files"
 	exit(0)
@@ -105,21 +109,11 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, end='incep
     return deprocess(net, src.data[0])
 
 
-original_img_path  = '/var/www/deepdream/deepdream/static/pending/'
 for original_img in pending_files:
-	img = np.float32(PIL.Image.open(original_img_path + original_img))
+	img = np.float32(PIL.Image.open(pending_img_path + original_img))
 	dream = deepdream(net, img) 
 	final_img = original_img.split(".")[0].split("/")[-1]
-	out_path = saveImage("/var/www/deepdream/deepdream/static/final/"+final_img, dream)
-	os.rename(original_img_path+original_img, "/var/www/deepdream/deepdream/static/originals/"+original_img)
+	out_path = saveImage(final_img_path+final_img, dream)
+	os.rename(pending_img_path+original_img, original_img_path +original_img)
 
 
-'''
-dream = np.uint8(np.clip(dream, 0, 255))
-f = StringIO()
-PIL.Image.fromarray(dream).save(f, fmt)
-
-
-g = open('../cara._dreamjpg', 'w')
-g.write(PIL.Image(data=f.getvalue()))
-'''
