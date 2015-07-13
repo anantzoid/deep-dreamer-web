@@ -30,10 +30,8 @@
 <script>
 Dropzone.options.myDropzone = {
     init: function () {
-        this.on("addedfile", function(file) {
-            showLoader();
-        });
         this.on("success", function (file,response) {
+            showLoader();
             checkResult(response, this);	
         });
   }

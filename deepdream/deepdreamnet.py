@@ -109,11 +109,21 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, end='incep
     return deprocess(net, src.data[0])
 
 
-for original_img in pending_files:
-	img = np.float32(PIL.Image.open(pending_img_path + original_img))
-	dream = deepdream(net, img) 
-	final_img = original_img.split(".")[0].split("/")[-1]
-	out_path = saveImage(final_img_path+final_img, dream)
-	os.rename(pending_img_path+original_img, original_img_path +original_img)
+original_img = pending_files[0]
+path = pending_img_path + original_img
+
+#compress if image is too large
+compressed_path = path.split(".")[0]+"_1."+path.split(".")[1]
+if os.path.getsize(path) > 700000:
+    foo = PIL.Image.open(path)
+    foo.save(compressed_path , optimize=True,quality=50)
+    os.rename(compressed_path, path)
+
+img = np.float32(PIL.Image.open(path))
+os.rename(pending_img_path+original_img, original_img_path +original_img)
+
+dream = deepdream(net, img) 
+final_img = original_img.split(".")[0].split("/")[-1]
+out_path = saveImage(final_img_path+final_img, dream)
 
 
